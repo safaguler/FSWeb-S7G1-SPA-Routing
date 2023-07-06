@@ -1,28 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import KaydedilenlerListesi from './KaydedilenlerListesi';
+import FilmListesi from './FilmListesi.js';
+import FilmCard from './FilmCard.js';
 
 export default function Film(props) {
-  const [movie, setMovie] = useState();
-
-  let id = 1;
+  
+  const [movie, setMovie] = useState(null);
+  const [saved, setSaved] = useState(false);
+  const { id } = useParams();
+  
   // URL'den alınan :id parametresini bu değişkene aktarın
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5001/api/filmler/${id}`) // Bu uç noktayı Postman'le çalışın
-      .then(response => {
-          // Bu kısmı log statementlarıyla çalışın
-          // ve burdan gelen response'u 'movie' e aktarın
-      })
-      .catch(error => {
+    const fetchFilm = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/filmler/${id}`);
+        setMovie(response.data);
+      } catch (error) {
         console.error(error);
-      });
-    // Bu effect her `id ` değiştiğinde çalışmalı
-    // Bunu nasıl gerçekleştirebiliriz?
-  }, []);
+      }
+    };
+    fetchFilm();
+  }, [id]);
 
   // Yalnızca esnek görevlere geçtiğinizde burdaki yorum etiketini kaldırın
   // const filmiKaydet = evt => { }
+  const filmiKaydet = () => {
+    setSaved(true);
+    console.log('Film kaydedildi!');
+  };
 
   if (!movie) {
     return <div>Film bilgisi yükleniyor...</div>;
@@ -42,13 +50,15 @@ export default function Film(props) {
         </div>
         <h3>Actors</h3>
 
-        {stars.map(star => (
-          <div key={star} className="movie-star">
+        {stars.map((star, index) => (
+          <div key={index} className="movie-star">
             {star}
           </div>
         ))}
       </div>
-      <div className="save-button">Kaydet</div>
+      <div className="save-button" onClick={filmiKaydet}>
+        {saved ? 'Kaydedildi' : 'Kaydet'}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,8 @@
 import React from 'react';
+import KaydedilenlerListesi from './KaydedilenlerListesi';
+
+import Film from './Film.js';
+import FilmCard from './FilmCard.js';
 
 export default function FilmListesi(props) {
   return (
