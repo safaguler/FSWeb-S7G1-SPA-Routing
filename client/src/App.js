@@ -45,6 +45,7 @@ export default function App () {
       <Switch>
       <Route exact path="/" render={(props) => <FilmListesi {...props} movies={movieList} />} />
           <Route path="/filmler/:id" render={(props) => <Film {...props} KaydedilenlerListesi={KaydedilenlerListesi} />} />
+          <Film />
       </Switch>
     
     </div>

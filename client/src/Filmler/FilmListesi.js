@@ -3,7 +3,7 @@ import KaydedilenlerListesi from './KaydedilenlerListesi';
 
 import Film from './Film.js';
 import FilmCard from './FilmCard.js';
-
+import { useHistory } from 'react-router-dom';
 export default function FilmListesi(props) {
   return (
     <div className="movie-list">
@@ -15,10 +15,11 @@ export default function FilmListesi(props) {
   }
 
 function FilmDetayları(props) {
-  const { title, director, metascore } = props.movie;
-
+  const history = useHistory();
+  const { title, director, metascore, id } = props.movie;
+  
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={() => {history.push(`/filmler/${id}`)}}>
       <h2>{title}</h2>
       <div className="movie-director">
         Director: <em>{director}</em>
